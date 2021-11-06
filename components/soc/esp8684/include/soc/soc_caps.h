@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2021 Espressif Systems (Shanghai) CO LTD
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 // The long term plan is to have a single soc_caps.h for each peripheral.
 // During the refactoring and multichip support development process, we
 // seperate these information into periph_caps.h for each peripheral and
@@ -5,26 +10,21 @@
 
 #pragma once
 
-/*-------------------------- COMMON CAPS ---------------------------------------*/
 #define SOC_CPU_CORES_NUM               1
-#define SOC_DEDICATED_GPIO_SUPPORTED    1
 #define SOC_GDMA_SUPPORTED              1
-#define SOC_TWAI_SUPPORTED              1
 #define SOC_BT_SUPPORTED                1
 #define SOC_DIG_SIGN_SUPPORTED          1
 #define SOC_HMAC_SUPPORTED              1
 #define SOC_ASYNC_MEMCPY_SUPPORTED      1
-#define SOC_USB_SERIAL_JTAG_SUPPORTED   1
-#define SOC_TEMP_SENSOR_SUPPORTED       1
-#define SOC_FLASH_ENCRYPTION_XTS_AES    1
-#define SOC_XT_WDT_SUPPORTED            1
+
+/*-------------------------- COMMON CAPS ---------------------------------------*/
 #define SOC_SUPPORTS_SECURE_DL_MODE     1
-#define SOC_EFUSE_SECURE_BOOT_KEY_DIGESTS   3
-#define SOC_EFUSE_REVOKE_BOOT_KEY_DIGESTS   1
-#define SOC_ICACHE_ACCESS_RODATA_SUPPORTED  1
-#define SOC_RTC_FAST_MEM_SUPPORTED        1
-#define SOC_RTC_SLOW_MEM_SUPPORTED        0
-#define SOC_SUPPORT_SECURE_BOOT_REVOKE_KEY               1
+#define SOC_EFUSE_SECURE_BOOT_KEY_DIGESTS 3
+#define SOC_EFUSE_REVOKE_BOOT_KEY_DIGESTS 1
+#define SOC_RTC_FAST_MEM_SUPPORTED      0
+#define SOC_RTC_SLOW_MEM_SUPPORTED      0
+#define SOC_SUPPORT_SECURE_BOOT_REVOKE_KEY             0
+#define SOC_ICACHE_ACCESS_RODATA_SUPPORTED 1
 
 /*-------------------------- AES CAPS -----------------------------------------*/
 #define SOC_AES_SUPPORT_DMA     (1)
@@ -32,34 +32,20 @@
 /* Has a centralized DMA, which is shared with all peripherals */
 #define SOC_AES_GDMA            (1)
 
-#define SOC_AES_SUPPORT_AES_128 (1)
-#define SOC_AES_SUPPORT_AES_256 (1)
-
 /*-------------------------- ADC CAPS -------------------------------*/
-/*!< SAR ADC Module*/
-#define SOC_ADC_ARBITER_SUPPORTED               1
-#define SOC_ADC_FILTER_SUPPORTED                1
-#define SOC_ADC_MONITOR_SUPPORTED               1
 #define SOC_ADC_PERIPH_NUM                      (2)
+#define SOC_ADC_PATT_LEN_MAX                    (16)
 #define SOC_ADC_CHANNEL_NUM(PERIPH_NUM)         ((PERIPH_NUM==0)? 5 : 1)
 #define SOC_ADC_MAX_CHANNEL_NUM                 (5)
-
-/*!< Digital */
-#define SOC_ADC_DIGI_CONTROLLER_NUM             (1)
-#define SOC_ADC_PATT_LEN_MAX                    (8) /*!< One pattern table, each contains 8 items. Each item takes 1 byte */
-#define SOC_ADC_DIGI_MAX_BITWIDTH               (12)
+#define SOC_ADC_MAX_BITWIDTH                    (12)
+#define SOC_ADC_CALIBRATION_V1_SUPPORTED        (1) /*!< support HW offset calibration version 1*/
 #define SOC_ADC_DIGI_FILTER_NUM                 (2)
 #define SOC_ADC_DIGI_MONITOR_NUM                (2)
-/*!< F_sample = F_digi_con / 2 / interval. F_digi_con = 5M for now. 30 <= interva <= 4095 */
+#define SOC_ADC_HW_CALIBRATION_V1               (1) /*!< support HW offset calibration */
+#define SOC_ADC_SUPPORT_DMA_MODE(PERIPH_NUM)    1
+//F_sample = F_digi_con / 2 / interval. F_digi_con = 5M for now. 30 <= interva <= 4095
 #define SOC_ADC_SAMPLE_FREQ_THRES_HIGH          83333
 #define SOC_ADC_SAMPLE_FREQ_THRES_LOW           611
-
-/*!< RTC */
-#define SOC_ADC_MAX_BITWIDTH                    (12)
-
-/*!< Calibration */
-#define SOC_ADC_CALIBRATION_V1_SUPPORTED        (1) /*!< support HW offset calibration version 1*/
-
 
 /*-------------------------- APB BACKUP DMA CAPS -------------------------------*/
 #define SOC_APB_BACKUP_DMA              (1)
@@ -68,8 +54,8 @@
 #define SOC_BROWNOUT_RESET_SUPPORTED 1
 
 /*-------------------------- CPU CAPS ----------------------------------------*/
-#define SOC_CPU_BREAKPOINTS_NUM         8
-#define SOC_CPU_WATCHPOINTS_NUM         8
+#define SOC_CPU_BREAKPOINTS_NUM         2
+#define SOC_CPU_WATCHPOINTS_NUM         2
 #define SOC_CPU_HAS_FLEXIBLE_INTC       1
 
 #define SOC_CPU_WATCHPOINT_SIZE         0x80000000 // bytes
@@ -91,32 +77,28 @@
 #define SOC_GDMA_TX_RX_SHARE_INTERRUPT  (1) // TX and RX channel in the same pair will share the same interrupt source number
 
 /*-------------------------- GPIO CAPS ---------------------------------------*/
-// ESP32-C3 has 1 GPIO peripheral
+// ESP8684 has 1 GPIO peripheral
 #define SOC_GPIO_PORT               (1)
-#define SOC_GPIO_PIN_COUNT          (22)
+#define SOC_GPIO_PIN_COUNT          (21)
 
 // Target has no full RTC IO subsystem, so GPIO is 100% "independent" of RTC
-// On ESP32-C3, Digital IOs have their own registers to control pullup/down capability, independent of RTC registers.
+// On ESP8684, Digital IOs have their own registers to control pullup/down capability, independent of RTC registers.
 #define GPIO_SUPPORTS_RTC_INDEPENDENT       (1)
-// Force hold is a new function of ESP32-C3
+// Force hold is a new function of ESP8684
 #define SOC_GPIO_SUPPORT_FORCE_HOLD         (1)
-// GPIO0~5 on ESP32C3 can support chip deep sleep wakeup
+// GPIO0~5 on ESP8684 can support chip deep sleep wakeup
 #define SOC_GPIO_SUPPORT_DEEPSLEEP_WAKEUP   (1)
 
-#define SOC_GPIO_VALID_GPIO_MASK        ((1U<<SOC_GPIO_PIN_COUNT) - 1)
+// GPIO19 on ESP8684 is invalid.
+#define SOC_GPIO_VALID_GPIO_MASK        (((1U<<SOC_GPIO_PIN_COUNT) - 1) & (~(BIT19)))
 #define SOC_GPIO_VALID_OUTPUT_GPIO_MASK SOC_GPIO_VALID_GPIO_MASK
 #define SOC_GPIO_DEEP_SLEEP_WAKEUP_VALID_GPIO_MASK        (0ULL | BIT0 | BIT1 | BIT2 | BIT3 | BIT4 | BIT5)
 
 // Support to configure sleep status
 #define SOC_GPIO_SUPPORT_SLP_SWITCH  (1)
 
-/*-------------------------- Dedicated GPIO CAPS -----------------------------*/
-#define SOC_DEDIC_GPIO_OUT_CHANNELS_NUM (8) /*!< 8 outward channels on each CPU core */
-#define SOC_DEDIC_GPIO_IN_CHANNELS_NUM  (8) /*!< 8 inward channels on each CPU core */
-#define SOC_DEDIC_PERIPH_AUTO_ENABLE    (1) /*!< The dedicated GPIO peripheral is enabled automatically */
-
 /*-------------------------- I2C CAPS ----------------------------------------*/
-// ESP32-C3 have 2 I2C.
+// TODO IDF-3918
 #define SOC_I2C_NUM                 (1)
 
 #define SOC_I2C_FIFO_LEN            (32) /*!< I2C hardware FIFO depth */
@@ -128,11 +110,7 @@
 #define SOC_I2C_SUPPORT_RTC         (1)
 
 /*-------------------------- I2S CAPS ----------------------------------------*/
-#define SOC_I2S_NUM                 (1)
-#define SOC_I2S_SUPPORTS_PCM        (1)
-#define SOC_I2S_SUPPORTS_PDM_TX     (1)
-#define SOC_I2S_SUPPORTS_PDM_CODEC  (1)
-#define SOC_I2S_SUPPORTS_TDM        (1)
+// TODO IDF-3896
 
 /*-------------------------- LEDC CAPS ---------------------------------------*/
 #define SOC_LEDC_SUPPORT_XTAL_CLOCK  (1)
@@ -167,7 +145,7 @@
 #define SOC_RTC_CNTL_CPU_PD_RETENTION_MEM_SIZE  (SOC_RTC_CNTL_CPU_PD_REG_FILE_NUM * (SOC_RTC_CNTL_CPU_PD_DMA_BUS_WIDTH >> 3))
 
 /*-------------------------- RTCIO CAPS --------------------------------------*/
-/* No dedicated RTCIO subsystem on ESP32-C3. RTC functions are still supported
+/* No dedicated RTCIO subsystem on ESP8684. RTC functions are still supported
  * for hold, wake & 32kHz crystal functions - via rtc_cntl_reg */
 #define SOC_RTCIO_PIN_COUNT    0
 
@@ -239,32 +217,30 @@
 #define SOC_SYSTIMER_ALARM_MISS_COMPENSATE (1)  // Systimer peripheral can generate interrupt immediately if t(target) > t(current)
 
 /*--------------------------- TIMER GROUP CAPS ---------------------------------------*/
-#define SOC_TIMER_GROUPS                  (2)
+#define SOC_TIMER_GROUPS                  (1)
 #define SOC_TIMER_GROUP_TIMERS_PER_GROUP  (1)
 #define SOC_TIMER_GROUP_COUNTER_BIT_WIDTH (54)
 #define SOC_TIMER_GROUP_SUPPORT_XTAL      (1)
 #define SOC_TIMER_GROUP_TOTAL_TIMERS (SOC_TIMER_GROUPS * SOC_TIMER_GROUP_TIMERS_PER_GROUP)
 
 /*-------------------------- TOUCH SENSOR CAPS -------------------------------*/
-#define SOC_TOUCH_SENSOR_NUM            (0)    /*! No touch sensors on ESP32-C3 */
+#define SOC_TOUCH_SENSOR_NUM            (0)    /*! No touch sensors on ESP8684 */
 
 /*-------------------------- TWAI CAPS ---------------------------------------*/
-#define SOC_TWAI_BRP_MIN                2
-#define SOC_TWAI_BRP_MAX                16384
-#define SOC_TWAI_SUPPORTS_RX_STATUS     1
+// TODO IDF-3897
 
 /*-------------------------- Flash Encryption CAPS----------------------------*/
 #define SOC_FLASH_ENCRYPTED_XTS_AES_BLOCK_MAX   (32)
 
 /*-------------------------- UART CAPS ---------------------------------------*/
-// ESP32-C3 has 2 UARTs
+// ESP8684 has 2 UARTs
 #define SOC_UART_NUM                (2)
+
 #define SOC_UART_FIFO_LEN           (128)      /*!< The UART hardware FIFO length */
 #define SOC_UART_BITRATE_MAX        (5000000)  /*!< Max bit rate supported by UART */
 
 #define SOC_UART_SUPPORT_RTC_CLK    (1)
 #define SOC_UART_SUPPORT_XTAL_CLK   (1)
-#define SOC_UART_REQUIRE_CORE_RESET (1)
 
 // UART has an extra TX_WAIT_SEND state when the FIFO is not empty and XOFF is enabled
 #define SOC_UART_SUPPORT_FSM_TX_WAIT_SEND   (1)
