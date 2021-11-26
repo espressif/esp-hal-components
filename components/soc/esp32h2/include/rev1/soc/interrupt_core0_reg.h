@@ -1,24 +1,16 @@
-// Copyright 2020 Espressif Systems (Shanghai) PTE LTD
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/*
+ * SPDX-FileCopyrightText: 2017-2021 Espressif Systems (Shanghai) CO LTD
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 #ifndef _SOC_INTERRUPT_CORE0_REG_H_
 #define _SOC_INTERRUPT_CORE0_REG_H_
 
+#include "soc/soc.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "soc.h"
 
 #define DR_REG_INTERRUPT_CORE0_BASE DR_REG_INTERRUPT_BASE
 
@@ -222,13 +214,13 @@ extern "C" {
 #define INTERRUPT_CORE0_EFUSE_INT_MAP_V  0x1F
 #define INTERRUPT_CORE0_EFUSE_INT_MAP_S  0
 
-#define INTERRUPT_CORE0_CAN_INT_MAP_REG          (DR_REG_INTERRUPT_CORE0_BASE + 0x064)
-/* INTERRUPT_CORE0_CAN_INT_MAP : R/W ;bitpos:[4:0] ;default: 5'd0 ; */
+#define INTERRUPT_CORE0_TWAI_INT_MAP_REG          (DR_REG_INTERRUPT_CORE0_BASE + 0x064)
+/* INTERRUPT_CORE0_TWAI_INT_MAP : R/W ;bitpos:[4:0] ;default: 5'd0 ; */
 /*description: */
-#define INTERRUPT_CORE0_CAN_INT_MAP  0x0000001F
-#define INTERRUPT_CORE0_CAN_INT_MAP_M  ((INTERRUPT_CORE0_CAN_INT_MAP_V)<<(INTERRUPT_CORE0_CAN_INT_MAP_S))
-#define INTERRUPT_CORE0_CAN_INT_MAP_V  0x1F
-#define INTERRUPT_CORE0_CAN_INT_MAP_S  0
+#define INTERRUPT_CORE0_TWAI_INT_MAP  0x0000001F
+#define INTERRUPT_CORE0_TWAI_INT_MAP_M  ((INTERRUPT_CORE0_TWAI_INT_MAP_V)<<(INTERRUPT_CORE0_TWAI_INT_MAP_S))
+#define INTERRUPT_CORE0_TWAI_INT_MAP_V  0x1F
+#define INTERRUPT_CORE0_TWAI_INT_MAP_S  0
 
 #define INTERRUPT_CORE0_USB_INTR_MAP_REG          (DR_REG_INTERRUPT_CORE0_BASE + 0x068)
 /* INTERRUPT_CORE0_USB_INTR_MAP : R/W ;bitpos:[4:0] ;default: 5'd0 ; */
