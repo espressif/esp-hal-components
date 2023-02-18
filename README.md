@@ -22,6 +22,10 @@ Where:
     - Based on IDF `master` branch.
     - Includes components: `soc`, `hal`, `esp_hw_support`, `esp_system`, `efuse`, `log`.
 
+- [`sync-2-master`](../../tree/sync-2-master):
+    - Based on IDF `master` branch.
+    - Includes components: `soc`, `hal`, `esp_common`, `esp_rom`, `riscv`, `xtensa`, `esp_hw_support`, `esp_system`, `efuse`, `log`.
+
 ## Restrictions
 
 1. Sync branches don't have common ancestors

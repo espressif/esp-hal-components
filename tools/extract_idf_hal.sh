@@ -27,11 +27,12 @@ extract_hal() {
     rm -rf ${FOLDER_NAME}
     cp -r download_idf ${FOLDER_NAME}
 
-    cd ${FOLDER_NAME}
+    pushd ${FOLDER_NAME}
     git filter-repo $2
 
     git checkout -B $1
     git push ${ESP_HAL_URL} ${BRANCH_NAME}
+    popd
 }
 
 # Usage get_arg_by_components [COMPONENTS...]
@@ -53,6 +54,9 @@ LIC_ARG="--path LICENSE "
 # Any modification to the strategy will create new branch that cannot be merged (pushed) to the existing one.
 ARG="${LIC_ARG} $(get_arg_by_components soc hal esp_hw_support esp_system efuse log)"
 extract_hal "sync-1-master" "${ARG}"
+
+ARG="${LIC_ARG} $(get_arg_by_components soc hal esp_common esp_rom riscv xtensa esp_hw_support esp_system efuse log)"
+extract_hal "sync-2-master" "${ARG}"
 
 # Add new one below if you have new requirement
 
