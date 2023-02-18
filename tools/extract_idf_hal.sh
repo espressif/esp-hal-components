@@ -55,6 +55,9 @@ LIC_ARG="--path LICENSE "
 ARG="${LIC_ARG} $(get_arg_by_components soc hal esp_hw_support esp_system efuse log)"
 extract_hal "sync-1-master" "${ARG}"
 
+ARG="${LIC_ARG} $(get_arg_by_components soc hal esp_common esp_rom riscv xtensa esp_hw_support esp_system efuse log)"
+extract_hal "sync-2-master" "${ARG}"
+
 # Add new one below if you have new requirement
 
 # Push to protected branch will cause that branch to appear on Github.
