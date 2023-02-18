@@ -27,11 +27,12 @@ extract_hal() {
     rm -rf ${FOLDER_NAME}
     cp -r download_idf ${FOLDER_NAME}
 
-    cd ${FOLDER_NAME}
+    pushd ${FOLDER_NAME}
     git filter-repo $2
 
     git checkout -B $1
     git push ${ESP_HAL_URL} ${BRANCH_NAME}
+    popd
 }
 
 # Usage get_arg_by_components [COMPONENTS...]
