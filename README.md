@@ -18,6 +18,14 @@ Where:
 
 ## Existing branches
 
+- [`sync-3-master`](../../tree/sync-3-master):
+    - Based on IDF `master` branch.
+    - Includes components: `soc`, `hal`, `esp_common`, `esp_rom`, `riscv`, `xtensa`, `esp_hw_support`, `esp_system`, `efuse`, `log`.
+
+## Depreacated branches
+
+The following branches are deprecated (not updated any more), because they bring the Gitlab/Github links in the commit message into esp-hal-components repo, creating annoying autolink. (issue fixed from `sync-3-master`)
+
 - [`sync-1-master`](../../tree/sync-1-master):
     - Based on IDF `master` branch.
     - Includes components: `soc`, `hal`, `esp_hw_support`, `esp_system`, `efuse`, `log`.
